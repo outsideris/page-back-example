@@ -10,6 +10,10 @@ router.get('/basic', function(req, res, next) {
   res.render('basic');
 });
 
+router.get('/hash', function(req, res, next) {
+  res.render('hash');
+});
+
 router.get('/pages/:num', function(req, res, next) {
   const list = [1,2,3,4,5,6,7,8,9,10];
   const data = list.map((l) => {
