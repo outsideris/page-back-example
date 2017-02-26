@@ -14,7 +14,6 @@ block content
         }).join('');
         $('#list').html(list);
         $('#next').attr('href', '/pages/' + (+page+1));
-        window.location.hash = '#page' + page;
       });
     };
 
@@ -24,15 +23,5 @@ block content
       getList(page);
     });
 
-    $(window).on('hashchange', function() {
-      var page = parseInt(location.hash.slice(5));
-      if (!!page && currentPage !== page) {
-        getList(page);
-      }
-    });
-
     var currentPage = $('#next').attr('href').slice(7);
-    if (location.hash) {
-      currentPage = parseInt(location.hash.slice(5)) + 1;
-    }
     getList(--currentPage);

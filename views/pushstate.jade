@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Ajax 뒤로 가기 예제
+  h3 게시글 목록
+  ul#list
+    - each l in list
+      li
+        a(href="/detail/#{l.id}")= l.title
+  a(href="/pushstate/page#{++page}")#next 다음 
+  script(src="https://code.jquery.com/jquery-3.1.1.min.js")
+  script.
+    var getList = function(page) {
+      $.getJSON('/pushstate/page' + page, function(data) {
+        var list = $.map(data.list, function(l) {
+          return '<li><a href="/detail/' + l.id + '">' + l.title + '</a></li>'
+        }).join('');
+        $('#list').html(list);
+        $('#next').attr('href', '/pushstate/page' + (+page+1));
+        history.pushState({list: list, page: page}, 'Page '+ page, '/pushstate/page' + page);
+      });
+    };
+
+    $('#next').click(function(event) {
+      event.preventDefault();
+      var page = $(this).attr('href').slice(15);
+      getList(page);
+    });
+
+    $(window).on('popstate', function(event) {
+      var data = event.originalEvent.state;
+        $('#list').html(data.list);
+        $('#next').attr('href', '/pushstate/page' + (+data.page+1));
+    });
+
+    //- window.onpopstate = function(event) {
+    //-   console.log(event.state)
+    //- };

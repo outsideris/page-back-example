@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Ajax 뒤로 가기 예제
+  h3 게시글 목록
+  ul#list
+    - each l in list
+      li
+        a(href="/detail/#{l.id}")= l.title
+  a(href="/link/page#{++page}")#next 다음 
